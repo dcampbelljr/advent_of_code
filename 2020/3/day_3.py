@@ -95,14 +95,22 @@ def count_tree(step_x, step_y):
     pos = 0
     width = 31
 
+    print(f'Step X: {step_x} Step Y: {step_y}')
+    print('======================')
+
     with open("./input.txt", "r") as f:
         for index, i in enumerate(f.readlines(), start=1):
             if index % step_y == 1 or step_y == 1:
                 if i[pos] == "#":
                     count += 1
+                    print(i[:pos] + "X" + i[pos + 1:].strip())
+                else:
+                    print(i[:pos] + "O" + i[pos + 1:].strip())
 
                 pos = (pos + step_x) % width
-
+            else:
+                print(i.strip())
+    print()
     return count
 
 
@@ -112,10 +120,12 @@ def main():
     ans3 = count_tree(5, 1)
     ans4 = count_tree(7, 1)
     ans5 = count_tree(1, 2)
-    print(ans1, ans2, ans3, ans4, ans5)
+
+    print('Answers [1-5]', ans1, ans2, ans3, ans4, ans5, '\n')
 
     print(f"Part 1: {ans2}")
     print(f"Part 2: {ans1 * ans2 * ans3 * ans4 * ans5}")
+
 
 """
 Output:
