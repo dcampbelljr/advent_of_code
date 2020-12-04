@@ -165,10 +165,10 @@ def check_passport_enhanced(passport):
 
     hgt_val = passport.get("hgt")[:-2]
     hgt_unit = passport.get("hgt")[-2:]
-    if hgt_unit == "in" and hgt_val.isdigit() and 59 <= int(hgt_val) <= 76:
+    if ((hgt_unit == "in" and hgt_val.isdigit() and 59 <= int(hgt_val) <= 76) or 
+            (hgt_unit == "cm" and hgt_val.isdigit() and 150 <= int(hgt_val) <= 193)):
         count += 1
-    elif hgt_unit == "cm" and hgt_val.isdigit() and 150 <= int(hgt_val) <= 193:
-        count += 1
+   
 
     if len(passport.get("hcl")) == 7 and passport.get("hcl")[0] == "#":
         count += 1
