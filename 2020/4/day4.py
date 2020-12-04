@@ -152,34 +152,32 @@ def check_passport(passport):
 
 
 def check_passport_enhanced(passport):
-    count = 0
+    if not 1920 <= int(passport.get("byr")) <= 2002:
+        return False
 
-    if 1920 <= int(passport.get("byr")) <= 2002:
-        count += 1
+    if not 2010 <= int(passport.get("iyr")) <= 2020:
+        return False
 
-    if 2010 <= int(passport.get("iyr")) <= 2020:
-        count += 1
-
-    if 2020 <= int(passport.get("eyr")) <= 2030:
-        count += 1
+    if not 2020 <= int(passport.get("eyr")) <= 2030:
+        return False
 
     hgt_val = passport.get("hgt")[:-2]
     hgt_unit = passport.get("hgt")[-2:]
-    if ((hgt_unit == "in" and hgt_val.isdigit() and 59 <= int(hgt_val) <= 76) or 
-        (hgt_unit == "cm" and hgt_val.isdigit() and 150 <= int(hgt_val) <= 193)):
-        count += 1
+    if not ((hgt_unit == "in" and hgt_val.isdigit() and 59 <= int(hgt_val) <= 76) or 
+            (hgt_unit == "cm" and hgt_val.isdigit() and 150 <= int(hgt_val) <= 193)):
+        return False
 
-    if len(passport.get("hcl")) == 7 and passport.get("hcl")[0] == "#":
-        count += 1
+    if not (len(passport.get("hcl")) == 7 and passport.get("hcl")[0] == "#"):
+        return False
 
     eye_colors = ["amb", "blu", "brn", "gry", "grn", "hzl", "oth"]
-    if passport.get("ecl") in eye_colors:
-        count += 1
+    if not passport.get("ecl") in eye_colors:
+        return False
 
-    if passport.get("pid").isdigit() and len(passport.get("pid")) == 9:
-        count += 1
+    if not (passport.get("pid").isdigit() and len(passport.get("pid")) == 9):
+        return False
 
-    return bool(count == 7)
+    return True
 
 
 def main():
