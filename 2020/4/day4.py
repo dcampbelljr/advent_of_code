@@ -142,20 +142,16 @@ def read():
 
 def check_passport(passport):
     fields = ["byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid"]
-    special = "cid"
     count = 0
 
     for field in fields:
         if field in passport.keys():
             count += 1
 
-    if count >= 7:
-        return True
-    else:
-        return False
+    return bool(count >= 7)
 
 
-def enhanced_check_passport(passport):
+def check_passport_enhanced(passport):
     count = 0
 
     if 1920 <= int(passport.get("byr")) <= 2002:
@@ -169,31 +165,22 @@ def enhanced_check_passport(passport):
 
     hgt_val = passport.get("hgt")[:-2]
     hgt_unit = passport.get("hgt")[-2:]
-    if hgt_unit == "in":
-        if hgt_val.isdigit():
-            if 59 <= int(hgt_val) <= 76:
-                count += 1
-    elif hgt_unit == "cm":
-        if hgt_val.isdigit():
-            if 150 <= int(hgt_val) <= 193:
-                count += 1
+    if hgt_unit == "in" and hgt_val.isdigit() and 59 <= int(hgt_val) <= 76:
+        count += 1
+    elif hgt_unit == "cm" and hgt_val.isdigit() and 150 <= int(hgt_val) <= 193:
+        count += 1
 
-    if len(passport.get("hcl")) == 7:
-        if passport.get("hcl")[0] == "#":
-            count += 1
+    if len(passport.get("hcl")) == 7 and passport.get("hcl")[0] == "#":
+        count += 1
 
     eye_colors = ["amb", "blu", "brn", "gry", "grn", "hzl", "oth"]
     if passport.get("ecl") in eye_colors:
         count += 1
 
-    if passport.get("pid").isdigit():
-        if len(passport.get("pid")) == 9:
-            count += 1
+    if passport.get("pid").isdigit() and len(passport.get("pid")) == 9:
+        count += 1
 
-    if count >= 7:
-        return True
-    else:
-        return False
+    return bool(count == 7)
 
 
 def main():
@@ -207,7 +194,7 @@ def main():
         if i == "\n":
             if check_passport(passport):
                 valid_count += 1
-                if enhanced_check_passport(passport):
+                if check_passport_enhanced(passport):
                     enhanced_count += 1
             passport = {}
         else:
