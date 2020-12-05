@@ -88,7 +88,6 @@ def find_missing(seats):
 def main():
     seats = [int(s.translate(str.maketrans("FBLR", "0101")), 2) for s in read()]
     print(f"Part 1: Highest Seat ID {max(seats)}")
-
     print(f"Part 2: Missing seat: {find_missing(seats)}")
 
 
