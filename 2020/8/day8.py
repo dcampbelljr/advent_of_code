@@ -14,14 +14,19 @@ def proc(prog):
     acc = 0  # accumulator
     prev = 0  # previous accumulator state
     oplist = []
+    res = True  # execution result
 
     while True:
-        op, arg = prog[ip].split(" ")
-        arg = int(arg)
+        try:
+            op, arg = prog[ip].split(" ")
+            arg = int(arg)
+        except:
+            return res, acc
 
-        print(f"{op} {arg}, ip:{ip}, acc:{acc}")
+        # print(f"{op} {arg}, ip:{ip}, acc:{acc}")
         if ip in oplist:
-            print("infinite loop detected")
+            # print("infinite loop detected")
+            res = False
             break
         oplist.append(ip)
 
@@ -33,9 +38,31 @@ def proc(prog):
         if op == "jmp":
             ip += arg
 
+    return res, acc
+
 
 def main():
-    proc(read())
+    # Part 1
+    _, part1_acc = proc(read())
+
+    # Part 2
+    input_str = read()
+    for index, data in enumerate(read()):
+        op, arg = data.split(" ")
+        arg = int(arg)
+
+        if op == "jmp":
+            test_data = []
+            test_data = input_str.copy()
+            test_data[index] = "nop " + str(arg)
+        else:
+            continue
+        result, part2_acc = proc(test_data)
+        if result:
+            break
+
+    print(f"Part 1 answer: {part1_acc}")
+    print(f"Part 2 answer: {part2_acc}")
 
 
 if __name__ == "__main__":
