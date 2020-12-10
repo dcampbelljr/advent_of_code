@@ -52,7 +52,6 @@ def main():
         arg = int(arg)
 
         if op == "jmp":
-            test_data = []
             test_data = input_str.copy()
             test_data[index] = "nop " + str(arg)
         else:
